@@ -13,5 +13,10 @@
     "name": "1d12ee4dfa52d6394a2b64f15c353d3a7918df78a93d6ad5450127995777d7aa",
     "type": "java.lang.String",
     "description": "A description for '1d12ee4dfa52d6394a2b64f15c353d3a7918df78a93d6ad5450127995777d7aa'"
+  },
+  {
+    "name": "coins.list.url",
+    "type": "java.lang.String",
+    "description": "A description for 'coins.list.url'"
   }
 ]}

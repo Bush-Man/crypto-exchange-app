@@ -24,7 +24,6 @@ import com.apps.trader.serivice.JwtService;
 import com.apps.trader.serivice.TwoFactorOtpService;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 
 @RestController
 @AllArgsConstructor
