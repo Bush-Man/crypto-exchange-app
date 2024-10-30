@@ -56,4 +56,53 @@ public class CoinController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<JsonNode> searchCoin(@RequestParam("q") String keyword) {
+        try {
+            String coin = coinService.searchCoin(keyword);
+            JsonNode jsonNode = objectMapper.readTree(coin);
+
+            return ResponseEntity.ok(jsonNode);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/top50")
+    public ResponseEntity<JsonNode> getTop50CoinsByMarketCapRank() {
+        try {
+            String coin = coinService.getTop50CoinsByMarketCapRank();
+            JsonNode jsonNode = objectMapper.readTree(coin);
+
+            return ResponseEntity.ok(jsonNode);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @GetMapping("/trending")
+    public ResponseEntity<JsonNode> getTrendingCoins() {
+        try {
+            String coin = coinService.getTrendingCoins();
+            JsonNode jsonNode = objectMapper.readTree(coin);
+
+            return ResponseEntity.ok(jsonNode);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/details/{coinId}")
+    public ResponseEntity<JsonNode> getCoinDetails(@PathVariable String coinId) {
+        try {
+            String coin = coinService.getCoinDetails(coinId);
+            JsonNode jsonNode = objectMapper.readTree(coin);
+            return ResponseEntity.ok(jsonNode);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+
 }

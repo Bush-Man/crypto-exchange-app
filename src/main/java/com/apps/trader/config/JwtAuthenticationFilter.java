@@ -40,13 +40,11 @@ public class JwtAuthenticationFilter extends  OncePerRequestFilter {
 
                 if(authHeader != null && authHeader.startsWith("Bearer ")) {
 
-                String jwtToken = authHeader.substring(7);
-                Claims claims = jwtService.extractAllClaims(jwtToken);
-                // todo check if token is valid
-                String userEmail = String.valueOf(claims.get("email"));
-                String authorites = String.valueOf(claims.get("authorites"));
+                    // todo check if token is valid
 
-                List<GrantedAuthority> authoritiesList = AuthorityUtils.commaSeparatedStringToAuthorityList(authorites);
+                    String jwtToken = authHeader.substring(7);
+                    String userEmail = jwtService.extractEmailJwt(jwtToken);
+                    List<GrantedAuthority> authoritiesList = jwtService.extractAuthorityJwt(jwtToken);
                 //todo check if security context is empty before updating
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userEmail,null,authoritiesList);
                 SecurityContextHolder.getContext().setAuthentication(authToken);

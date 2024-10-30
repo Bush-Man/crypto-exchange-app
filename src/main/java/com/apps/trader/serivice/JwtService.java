@@ -5,12 +5,14 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -36,7 +38,7 @@ public class JwtService {
       return claimsResolver.apply(claims);
     }
 
-    public Claims extractAllClaims(String jwtToken){
+    private Claims extractAllClaims(String jwtToken) {
         return Jwts
         .parserBuilder()
         .setSigningKey(getSigningKey())
@@ -92,5 +94,20 @@ public class JwtService {
         return String.join(",",auth);
     }
    
+    public String extractEmailJwt(String jwt) {
+        Claims claims = extractAllClaims(jwt);
+        String userEmail = String.valueOf(claims.get("email"));
+        return userEmail;
+
+    }
+
+      public List<GrantedAuthority> extractAuthorityJwt(String jwt) {
+        Claims claims = extractAllClaims(jwt);
+          String authorites = String.valueOf(claims.get("authorites"));
+
+        return  AuthorityUtils.commaSeparatedStringToAuthorityList(authorites);
+
+    }
+
     
 }

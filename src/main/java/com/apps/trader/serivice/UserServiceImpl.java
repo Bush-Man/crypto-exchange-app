@@ -25,6 +25,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private final OtpUtils otpUtils;
+    @Autowired
+    private final JwtService jwtService;
 
     @Override
     public User findUserByEmail(String email) throws Exception {
@@ -82,6 +84,18 @@ public class UserServiceImpl implements UserService {
 
         } catch (Exception e) {
             throw new Exception(e.getMessage());
+        }
+
+    }
+
+    @Override
+    public User findUserByJwt(String jwt) throws Exception{ 
+        String userEmail = jwtService.extractEmailJwt(jwt);
+        try {
+            User user = this.findUserByEmail(userEmail);
+            return user;
+        } catch (Exception e) {
+            throw new Exception("user not found", e);
         }
 
     }

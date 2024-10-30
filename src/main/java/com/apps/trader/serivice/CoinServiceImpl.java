@@ -108,7 +108,7 @@ public class CoinServiceImpl implements CoinService {
     }
 
     @Override
-    public Coin finfById(String coinId) throws Exception {
+    public Coin findById(String coinId) throws Exception {
         Optional<Coin> coin = coinRepository.findById(coinId);
         if (coin.isEmpty()) {
             throw new Exception("coin not found");
