@@ -1,11 +1,11 @@
 package com.apps.trader.serivice;
 
-import java.util.Optional;
+//import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.apps.trader.OtpUtils.OtpUtils;
+//import com.apps.trader.OtpUtils.OtpUtils;
 import com.apps.trader.enums.VerificationType;
 import com.apps.trader.model.TwoFactorAuth;
 import com.apps.trader.model.User;
@@ -20,11 +20,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final UserRepository userRepository;
 
-    @Autowired
-    private final EmailService emailService;
+    // @Autowired
+    // private final EmailService emailService;
 
-    @Autowired
-    private final OtpUtils otpUtils;
+    // @Autowired
+    // private final OtpUtils otpUtils;
     @Autowired
     private final JwtService jwtService;
 

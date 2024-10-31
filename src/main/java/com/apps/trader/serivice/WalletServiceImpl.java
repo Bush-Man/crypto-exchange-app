@@ -1,9 +1,6 @@
 package com.apps.trader.serivice;
 
 import java.math.BigDecimal;
-import java.util.Optional;
-
-import org.hibernate.sql.results.graph.collection.internal.EagerCollectionFetch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

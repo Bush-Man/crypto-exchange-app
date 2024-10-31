@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.apps.trader.serivice.EmailService;
+//import com.apps.trader.serivice.EmailService;
 import com.apps.trader.serivice.UserService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,13 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.apps.trader.model.User;
 
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.apps.trader.enums.VerificationType;
-import org.springframework.web.bind.annotation.PostMapping;
 
 
 
@@ -31,8 +28,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private EmailService emailService;
+    // @Autowired
+    // private EmailService emailService;
 
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById(@RequestParam Long userId) throws Exception {

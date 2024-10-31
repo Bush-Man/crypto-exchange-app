@@ -17,8 +17,6 @@ import com.apps.trader.serivice.UserService;
 
 import lombok.AllArgsConstructor;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 @RestController
 @RequestMapping("/api/asset")
 @AllArgsConstructor
