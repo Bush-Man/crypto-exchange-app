@@ -44,6 +44,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         paymentOrder.setPaymentMethod(PaymentMethod);
         paymentOrder.setUser(user);
         paymentOrder.setAmount(amount);
+        paymentOrder.setOrderPaymentStatus(OrderPaymentStatus.PENDING);
         return paymentOrderRepository.save(paymentOrder);
     }
 
@@ -55,6 +56,9 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     @Override
     public Boolean proceedOrderPayment(PaymentOrder paymentOrder, String paymentId) throws Exception {
 
+        if (paymentOrder.getOrderPaymentStatus() == null) {
+            paymentOrder.setOrderPaymentStatus(OrderPaymentStatus.PENDING);
+        }
         try {
 
             if (paymentOrder.getOrderPaymentStatus().equals(OrderPaymentStatus.PENDING)) {
@@ -88,7 +92,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     }
 
     @Override
-    public PaymentResponse raziorOrderPayment(User user, Long amount) throws Exception {
+    public PaymentResponse raziorOrderPayment(User user, Long amount, Long orderId) throws Exception {
         amount = amount * 100;
 
         try {
@@ -108,7 +112,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
 
             paymentLinkReq.put("remainder_enabled", true);
 
-            paymentLinkReq.put("callback_url", "http://localhost:8080/api/wallet");
+            paymentLinkReq.put("callback_url", "http://localhost:8080/api/wallet?order_id=" + orderId);
             paymentLinkReq.put("callback_method", "get");
 
             PaymentLink paymentLink = razorpayClient.paymentLink.create(paymentLinkReq);

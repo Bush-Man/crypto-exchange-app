@@ -40,7 +40,7 @@ public class OrderPaymentController {
             PaymentOrder paymentOrder = paymentOrderService.createOrderPayment(user, amount, paymentMethodReq);
 
             if (paymentMethodReq.equals(PaymentMethod.RAZORPAY)) {
-                paymentResponse = paymentOrderService.raziorOrderPayment(user, amount);
+                paymentResponse = paymentOrderService.raziorOrderPayment(user, amount, paymentOrder.getId());
 
             } else {
                 paymentResponse = paymentOrderService.stripeOrderPayment(user, amount, paymentOrder.getId());

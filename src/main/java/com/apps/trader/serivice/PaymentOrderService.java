@@ -13,7 +13,7 @@ public interface PaymentOrderService {
 
     Boolean proceedOrderPayment(PaymentOrder paymentOrder, String paymentId) throws Exception;
 
-    PaymentResponse raziorOrderPayment(User user, Long amount) throws Exception;
+    PaymentResponse raziorOrderPayment(User user, Long amount, Long orderId) throws Exception;
 
     PaymentResponse stripeOrderPayment(User user, Long amount, Long orderId) throws Exception;
 

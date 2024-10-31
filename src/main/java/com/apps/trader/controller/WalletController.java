@@ -1,5 +1,6 @@
 package com.apps.trader.controller;
 
+import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,12 @@ import com.apps.trader.model.Order;
 import com.apps.trader.model.PaymentOrder;
 import com.apps.trader.model.User;
 import com.apps.trader.model.WalletTransaction;
-import com.apps.trader.repository.UserRepository;
 import com.apps.trader.serivice.OrderService;
 import com.apps.trader.serivice.PaymentOrderService;
 import com.apps.trader.serivice.UserService;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.apps.trader.serivice.CoinService;
 
 @RestController
 @RequestMapping("/api/wallet")
@@ -41,8 +40,7 @@ public class WalletController {
 
     @Autowired
     private final WalletService walletService;
-    @Autowired
-    private final UserRepository userRepository;
+
 
     @Autowired
     private final UserService userService;
@@ -59,10 +57,11 @@ public class WalletController {
      * TODO
      * Use userId from JWT Token
      */
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserWallet(@PathVariable Long userId) {
+    @GetMapping("/")
+    public ResponseEntity<?> getUserWallet(@RequestHeader("Authorization") String jwt) {
         try {
-            Wallet wallet = walletService.findById(userId);
+            User user = userService.findUserByJwt(jwt);
+            Wallet wallet = walletService.findById(user.getId());
             return ResponseEntity.ok(wallet);
 
         } catch (NoSuchElementException e) {
@@ -74,9 +73,9 @@ public class WalletController {
     }
 
     @PutMapping("/transfer/{userId}/{walletId}")
-    public ResponseEntity<?> walletToWalletTransfer(@PathVariable Long userId, @PathVariable Long walletId, @RequestBody WalletTransaction transactionReq) {
+    public ResponseEntity<?> walletToWalletTransfer(@RequestHeader("Authorization") String jwt, @PathVariable Long walletId, @RequestBody WalletTransaction transactionReq) {
         try {
-            User user = userRepository.findById(userId).get();
+            User user = userService.findUserByJwt(jwt);
             Wallet receiver = walletService.findById(walletId);
             Wallet sender_wallet = walletService.walletToWalletTransaction(user, receiver, transactionReq.getAmount());
 
@@ -117,6 +116,9 @@ public class WalletController {
 
             PaymentOrder orderToPay = paymentOrderService.getOrderPaymentById(orderId);
             Boolean status = paymentOrderService.proceedOrderPayment(orderToPay, paymentId);
+            if (wallet.getBalance() == null) {
+                wallet.setBalance(BigDecimal.valueOf(0));
+            }
             if (status) {
                 wallet = walletService.deposit(wallet, orderToPay.getAmount());
             }

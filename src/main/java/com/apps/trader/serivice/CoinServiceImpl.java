@@ -91,13 +91,13 @@ public class CoinServiceImpl implements CoinService {
             newCoin.setMarketCap(marketData.get("market_cap").get("usd").asLong());
             newCoin.setMarketCapRank(marketData.get("market_cap_rank").asInt());
             newCoin.setTotalVolume(marketData.get("total_volume").get("usd").asLong());
-            newCoin.setHigh24h(marketData.get("high24h").get("usd").asDouble());
-            newCoin.setLow24h(marketData.get("low24h").get("usd").asDouble());
-            newCoin.setPriceChange24h(marketData.get("price_change_24h").get("usd").asDouble());
-            newCoin.setPriceChangePercentage24h(marketData.get("price_change_percentage_24h").get("usd").asDouble());
-            newCoin.setMarketCapChange24h(marketData.get("market_cap_change_24h").get("usd").asLong());
+            newCoin.setHigh24h(marketData.get("high_24h").get("usd").asDouble());
+            newCoin.setLow24h(marketData.get("low_24h").get("usd").asDouble());
+            newCoin.setPriceChange24h(marketData.get("price_change_24h").asDouble());
+            newCoin.setPriceChangePercentage24h(marketData.get("price_change_percentage_24h").asDouble());
+            newCoin.setMarketCapChange24h(marketData.get("market_cap_change_24h").asLong());
             newCoin.setMarketCapChangePercentage24h(marketData.get("market_cap_change_percentage_24h").asDouble());
-            newCoin.setTotalSupply(marketData.get("total_supply").get("usd").asLong());
+            newCoin.setTotalSupply(marketData.get("total_supply").asLong());
             coinRepository.save(newCoin);
 
             return response.getBody();
@@ -135,7 +135,7 @@ public class CoinServiceImpl implements CoinService {
 
     @Override
     public String getTop50CoinsByMarketCapRank() throws Exception {
-        String url = "https://api.coingecko.com/api/v3/coins/markets/vs_currency=usd&per_page=50&page=1";
+        String url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=50&page=1";
         RestTemplate restTemplate = new RestTemplate();
 
         try {

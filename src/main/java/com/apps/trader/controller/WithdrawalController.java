@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import com.apps.trader.enums.Role;
 import com.apps.trader.enums.WalletTransactionType;
 import com.apps.trader.model.User;
 import com.apps.trader.model.Wallet;
@@ -56,7 +57,7 @@ public class WithdrawalController {
                     null,
                     amount
             );
-            return new ResponseEntity<>(withdrawal, HttpStatus.OK);
+            return new ResponseEntity<>(walletTransaction, HttpStatus.OK);
 
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex);
@@ -101,6 +102,9 @@ public class WithdrawalController {
     public ResponseEntity<?> getAllWithdrawals(@RequestHeader("Authorization") String jwt) {
         try {
             User user = userService.findUserByJwt(jwt);
+            if (user.getRole() != Role.ADMIN) {
+                return new ResponseEntity<>("Not Authorized", HttpStatus.OK);
+            }
             List<Withdrawal> withdrawalRequests = withdrawService.getAllWithdrawalRequest();
 
             return new ResponseEntity<>(withdrawalRequests, HttpStatus.OK);
